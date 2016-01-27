@@ -1,0 +1,22 @@
+1 »úÆ÷Çé¿ö
+a. master
+   #more /etc/redhat-release 
+    CentOS Linux release 7.2.1511 (Core) 
+   #uname -r
+    3.10.0-327.4.4.el7.x86_64
+   #ifconfig eth0
+    192.168.12.50
+b. slave1
+   #more /etc/redhat-release 
+    CentOS Linux release 7.2.1511 (Core) 
+   #uname -r
+    3.10.0-327.4.4.el7.x86_64
+   #ifconfig eth0
+    192.168.12.51
+c. slave2
+   #more /etc/redhat-release 
+    CentOS Linux release 7.2.1511 (Core) 
+   #uname -r
+    3.10.0-327.4.4.el7.x86_64
+   #ifconfig eth0
+    192.168.12.52
