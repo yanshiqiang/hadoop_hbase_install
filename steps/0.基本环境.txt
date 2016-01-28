@@ -20,3 +20,33 @@ c. slave2
     3.10.0-327.4.4.el7.x86_64
    #ifconfig eth0
     192.168.12.52
+2 java 环境
+ #java -version
+  openjdk version "1.8.0_65"
+  OpenJDK Runtime Environment (build 1.8.0_65-b17)
+  OpenJDK 64-Bit Server VM (build 25.65-b01, mixed mode)
+3 hosts文件 and hostname
+  192.168.12.50 master
+  192.168.12.51 slave1
+  192.168.12.52 slave2
+4 ssh免登陆
+4.1 in master pc
+a. create key
+  #ssh-keygen -t rsa
+  #cd /root/.ssh/
+  #cp id_rsa.pub authorized_keys
+b. testing
+  #ssh master
+c. each slave node:
+  #ssh-keygen -t rsa
+d. copy master key to each slave node
+  #scp authorized_keys slave1:/root/.ssh/
+  #scp authorized_keys slave1:/root/.ssh/
+e testing(in master)
+  #ssh slave1
+  #ssh slave2
+f each node can ssh,needn't password
+  example:slave1:
+  (in slave1)#scp id_rsa.pub master:/root/.ssh/id_rsa.pub.slave1
+  (in master)#cat id_rsa.pub.slave1 >>authorized_keys 
+
