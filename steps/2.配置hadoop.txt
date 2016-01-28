@@ -1,0 +1,89 @@
+1. in master /opt/hadoop-2.7.2/etc/hadoop
+a. hadoop-env.sh file
+   export JAVA_HOME=/usr/lib/jvm/java
+b. slaves file
+   slave1
+   slave2
+c.  mkdir /home/hadoop/tmp -p 
+d.  core-site.xml file
+    <configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://master:9000</value>
+        </property>
+        <property>
+                <name>hadoop.tmp.dir</name>
+                <value>file:/home/hadoop/tmp</value>
+                <description>Abase for other temporary directories.</description>
+        </property>
+    </configuration>
+e.  hdfs-site.xml file 
+   (2个 Slave 节点，所以 dfs.replication 的值设为 2)
+   <configuration>
+        <property>
+                <name>dfs.namenode.secondary.http-address</name>
+                <value>master:50090</value>
+        </property>
+        <property>
+                <name>dfs.replication</name>
+                <value>2</value>
+        </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>file:/home/hadoop/tmp/dfs/name</value>
+        </property>
+        <property>
+                <name>dfs.datanode.data.dir</name>
+                <value>file:/home/hadoop/tmp/dfs/data</value>
+        </property>
+  </configuration>
+f. #cp mapred-site.xml.template mapred-site.xml
+g.  mapred-site.xml file
+   <configuration>
+        <property>
+                <name>mapreduce.framework.name</name>
+                <value>yarn</value>
+        </property>
+        <property>
+                <name>mapreduce.jobhistory.address</name>
+                <value>master:10020</value>
+        </property>
+        <property>
+                <name>mapreduce.jobhistory.webapp.address</name>
+                <value>master:19888</value>
+        </property>
+   </configuration>
+h. yarn-site.xml file
+  <configuration>
+            <property>
+                    <name>yarn.resourcemanager.hostname</name>
+                    <value>master</value>
+            </property>
+            <property>
+                    <name>yarn.nodemanager.aux-services</name>
+                    <value>mapreduce_shuffle</value>
+            </property>
+    </configuration>
+2. cp /opt/hadoop-2.7.2/etc/hadoop to slave1 ,slave2
+   #scp /opt/hadoop-2.7.2/etc/hadoop slave1:/opt/hadoop-2.7.2/etc/hadoop
+   #scp /opt/hadoop-2.7.2/etc/hadoop slave1:/opt/hadoop-2.7.2/etc/hadoop
+
+3. #hdfs namenode -format
+4. #start-dfs.sh
+5. #start-yarn.sh
+6. # mr-jobhistory-daemon.sh start historyserver
+7. check it
+a.  #jps (in master example)
+     	16820 NameNode
+	17509 Jps
+	17158 ResourceManager
+	17438 JobHistoryServer
+b.  #jps(in slaves example)
+   14838 Jps
+   14616 DataNode
+   14715 NodeManager
+c  # hdfs dfsadmin -report (in master)(SHOULD 2 nodes)
+   Live datanodes (2):  
+8. web browers
+   http://master:50070
+ 
