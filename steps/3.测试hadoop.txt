@@ -1,0 +1,9 @@
+1. #hdfs dfs -mkdir -p /user/root
+2. #hdfs dfs -mkdir input
+3. #hdfs dfs -put /usr/local/hadoop/etc/hadoop/*.xml input
+4. http://192.168.12.50:50070/dfshealth.html#tab-datanode
+5. testing MapReduce
+   hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar grep input output 'dfs[a-z.]+'
+6. http://192.168.12.50:8088/cluster
+7. view result
+   #hdfs dfs -cat output/*
