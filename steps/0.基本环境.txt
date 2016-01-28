@@ -49,4 +49,6 @@ f each node can ssh,needn't password
   example:slave1:
   (in slave1)#scp id_rsa.pub master:/root/.ssh/id_rsa.pub.slave1
   (in master)#cat id_rsa.pub.slave1 >>authorized_keys 
-
+5 close firewall(all nodes)
+  #systemctl stop firewalld.service
+  #systemctl disable firewalld.service

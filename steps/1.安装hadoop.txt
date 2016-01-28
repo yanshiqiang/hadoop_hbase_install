@@ -4,7 +4,7 @@
   #tar zxfv hadoop-2.7.2.tar.gz
 2.≈‰÷√javaº∞hadoopª∑æ≥
 a. each nodes:/etc/profiles
-  export JAVA_HOME=/etc/jvm/java
+  export JAVA_HOME=/usr/lib/jvm/java
   PATH=$PATH:/opt/hadoop-2.7.2/bin/
   export PATH USER LOGNAME MAIL HOSTNAME HISTSIZE HISTCONTROL
 b. relogin   
