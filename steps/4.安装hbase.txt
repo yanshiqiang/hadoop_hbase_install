@@ -1,0 +1,88 @@
+1. 环境
+a. /etc/security/limits.conf file
+  * soft nofile 65536
+  * hard nofile 65536
+  * soft nproc unlimited
+  * hard nproc unlimited 
+b. relogin
+2. vi hdfs-site.xml 
+a. modify hdfs-site.xml
+    <property>
+                <name>dfs.datanode.max.xcievers</name>
+                <value>8192</value>
+   </property>
+b.restart hdfs
+  #start-dfs.sh  
+  #stop-dfs.sh
+3. download hbase(in master,/opt folder)
+a.  wget http://apache.opencas.org/hbase/1.1.3/hbase-1.1.3-bin.tar.gz
+b. tar zxfv hbase-1.1.3-bin.tar.gz   
+4. hbase-env.sh file
+   export JAVA_HOME=/usr/lib/jvm/java
+   export HBASE_MANAGES_ZK=true
+5. hbase-site.xml file(first: #mkdir /opt/zookeeper)
+   <configuration>
+
+        <property>
+
+                <name>hbase.rootdir</name>
+
+                <value>hdfs://master:9000/hbase</value>
+
+        </property>
+
+        <property>
+
+                <name>hbase.cluster.distributed</name>
+
+                <value>true</value>
+
+        </property>
+
+        <property>
+
+                <name>hbase.zookeeper.property.clientPort</name>
+
+                <value>2222</value>
+
+        </property>
+
+        <property>
+
+                <name>hbase.zookeeper.quorum</name>
+
+                <value>master,slave1,slave2</value>
+
+        </property>
+
+        <property>
+
+                <name>hbase.zookeeper.property.dataDir</name>
+
+                <value>/opt/zookeeper</value>
+
+        </property>
+
+</configuration> 
+6.regionservers file
+  master
+  slave1
+  slave2
+7. /etc/profile;add path(need relogin)
+   PATH=$PATH:/opt/hadoop-2.7.2/bin/:/opt/hadoop-2.7.2/sbin/:/opt/hbase-1.1.3/bin   
+8.(这个版本不需要 
+   替换hadoop的jar包
+  #/opt/hbase-1.1.3/lib
+  #mkdir backup
+  #mv hadoop-*.jar backup
+  #find /opt/hadoop-2.7.2/share/hadoop/ -name "hadoop*jar" |xargs -i cp {} . )
+   
+9 copy to slave1,slave2
+  #scp -r hbase-1.1.3 slave1:/opt/hbase-1.1.3
+  #scp -r hbase-1.1.3 slave2:/opt/hbase-1.1.3
+10. start hbase
+  #/opt/hbase-1.1.3/bin/start-hbase.sh
+11.testing
+  #jps(all nodes)
+12 web browers
+  http://192.168.12.50:16010/
